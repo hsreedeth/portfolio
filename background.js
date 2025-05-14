@@ -3,7 +3,6 @@ const NUM_CUBES = 200;
 const CUBE_SIZE = 12;
 const SPACING_FACTOR = 2.5;
 const RED_CUBE_SIZE_MULTIPLIER = 1.5;
-let grainTexture;
 
 function setup() {
   const canvas = createCanvas(windowWidth, windowHeight, WEBGL);
@@ -17,21 +16,8 @@ function setup() {
     regenerateCubes();
   });
 
-  createGrain();
-  regenerateCubes(); // ← call it here to show cubes on initial load
+  regenerateCubes(); // Show cubes on initial load
 }
-
-// function drawDottedLine(yPos, xStart, xEnd, gap = 10, dotSize = 2) {
-//     for (let x = xStart; x <= xEnd; x += gap) {
-//       push();
-//       translate(x, yPos, 0);
-//       noStroke();
-//       fill(255, 80); // semi-transparent white
-//       sphere(dotSize);
-//       pop();
-//     }
-//   }
-  
 
 function regenerateCubes() {
   cubes = [];
@@ -47,7 +33,6 @@ function regenerateCubes() {
     rotZ: 0,
     isRed: true
   });
-
 
   // Surrounding white cubes
   for (let i = 0; i < NUM_CUBES; i++) {
@@ -70,13 +55,6 @@ function regenerateCubes() {
 
 function draw() {
   background(0);
-//     // Determine horizontal spread of cubes (only non-central ones)
-// let xValues = cubes.map(c => c.x);
-// let minX = Math.min(...xValues);
-// let maxX = Math.max(...xValues);
-
-// // Draw the dotted line slightly above the cube cluster (e.g., y = -60)
-// drawDottedLine(-60, minX, maxX);
 
   orbitControl(1, 1, 0);
 
@@ -98,32 +76,8 @@ function draw() {
     cube.rotY += 0.001;
     cube.rotX += 0.0005;
   }
-
-  // Grain overlay
-  push();
-  resetMatrix();
-  translate(-width / 2, -height / 2, 1);
-  image(grainTexture, 0, 0, width, height);
-  pop();
-}
-
-function createGrain() {
-  grainTexture = createGraphics(width, height);
-  grainTexture.loadPixels();
-  for (let i = 0; i < width * height * 0.1; i++) {
-    let x = floor(random(width));
-    let y = floor(random(height));
-    let idx = (y * width + x) * 4;
-    let g = random(255);
-    grainTexture.pixels[idx] = g;
-    grainTexture.pixels[idx + 1] = g;
-    grainTexture.pixels[idx + 2] = g;
-    grainTexture.pixels[idx + 3] = random(30, 90);
-  }
-  grainTexture.updatePixels();
 }
 
 function windowResized() {
   resizeCanvas(windowWidth, windowHeight);
-  createGrain();
 }
