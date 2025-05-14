@@ -33,11 +33,28 @@ body {
   }
   
   .topic {
+    position: relative;
     color: #ff4d4d;
     font-size: 0.55rem;
     font-family: 'Inter', sans-serif;
     text-align: left;
     line-height: 1.4;
+    cursor: pointer;
+  }
+  
+  .topic::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 1px;
+    width: 0;
+    background-color: #ff4d4d;
+    transition: width 0.5s ease;
+  }
+  
+  .topic:hover::after {
+    width: 100%;
   }
   
   
