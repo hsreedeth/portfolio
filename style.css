@@ -1,0 +1,101 @@
+/* Import font */
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #000;
+    color: #f0f0f0;
+    font-family: 'Inter', sans-serif;
+  }
+  
+  /* Header styling */
+  header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5em 2em;
+    background-color: #000;
+    position: sticky;
+    top: 0;
+  }
+
+  .content-wrapper {
+    padding-left: 2em;
+    padding-right: 2em;
+  }
+
+  .topics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    margin-top: -40px;               /* push down from the top */
+    margin-left: 2em;  
+    margin-right: 2em;               /* aligns with .tagline */
+    gap: 20px;
+  }
+  
+  .topic {
+    color: #ff4d4d;
+    font-size: 0.55rem;
+    font-family: 'Inter', sans-serif;
+    text-align: left;
+    line-height: 1.4;
+  }
+  
+  
+  .name {
+    font-size: 1.2rem;
+    font-weight: 600;
+  }
+  
+  .icons a {
+    margin-left: 1em;
+    color: #f0f0f0;
+    font-size: 1.4rem;
+    transition: color 0.3s ease;
+  }
+  
+  .icons a:hover {
+    color: #00b4d8;
+  }
+  
+  /* Tagline */
+  main {
+    display: flex;
+    align-items: center;
+    height: calc(100vh - 100px); /* adjust if header height changes */
+    padding-left: 2em; /* aligns with header's left padding */
+  }
+  
+  .tagline {
+    max-width: 600px;
+    text-align: left; /* ensures text stays left-aligned */
+  }
+
+  .tagline-underline {
+    height: 1px;
+    max-width: 600px; /* match your desired length */
+    background-color: white;
+    margin-top: 1em;
+  }
+  
+  
+  
+  #refresh-icon {
+    position: fixed;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+    cursor: pointer;
+    width: 36px;
+    height: 36px;
+  }
+  
+
+  /* Responsive */
+  @media (max-width: 600px) {
+    .tagline p {
+      font-size: 1.1rem;
+      padding: 0 1em;
+    }
+  }
+  
