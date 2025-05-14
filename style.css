@@ -65,13 +65,13 @@ body {
   
   .icons a {
     margin-left: 1em;
-    color: #ff4d4d;
+    color: #f0f0f0;
     font-size: 1.0rem;
     transition: color 0.3s ease;
   }
   
   .icons a:hover {
-    color: #00b4d8;
+    color: #ff4d4d;
   }
   
   /* Tagline */
