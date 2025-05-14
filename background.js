@@ -20,38 +20,55 @@ function setup() {
 }
 
 function regenerateCubes() {
-  cubes = [];
-
-  // Central red cube
-  cubes.push({
-    x: 0,
-    y: 0,
-    z: 0,
-    size: CUBE_SIZE * RED_CUBE_SIZE_MULTIPLIER,
-    rotX: PI / 4,
-    rotY: PI / 4,
-    rotZ: 0,
-    isRed: true
-  });
-
-  // Surrounding white cubes
-  for (let i = 0; i < NUM_CUBES; i++) {
-    let angle = random(TWO_PI);
-    let radius = random(50, 150);
-    let x = radius * cos(angle) * SPACING_FACTOR;
-    let z = radius * sin(angle) * SPACING_FACTOR;
-    let y = random(-30, 30) * SPACING_FACTOR;
-
+    cubes = [];
+  
+    // Central red cube
+    const redSize = CUBE_SIZE * RED_CUBE_SIZE_MULTIPLIER;
     cubes.push({
-      x, y, z,
-      size: CUBE_SIZE + random(-3, 3),
-      rotX: random(TWO_PI),
-      rotY: random(TWO_PI),
-      rotZ: random(TWO_PI),
-      isRed: false
+      x: 0,
+      y: 0,
+      z: 0,
+      size: redSize,
+      rotX: PI / 4,
+      rotY: PI / 4,
+      rotZ: 0,
+      isRed: true
     });
+  
+    // Helper: check if two cubes overlap
+    function cubesOverlap(c1, c2) {
+      const minDist = (c1.size + c2.size) / 2;
+      const dx = c1.x - c2.x;
+      const dy = c1.y - c2.y;
+      const dz = c1.z - c2.z;
+      return sqrt(dx * dx + dy * dy + dz * dz) < minDist;
+    }
+  
+    let attempts = 0;
+    while (cubes.length < NUM_CUBES + 1 && attempts < NUM_CUBES * 20) {
+      attempts++;
+      let angle = random(TWO_PI);
+      let radius = random(50, 150);
+      let x = radius * cos(angle) * SPACING_FACTOR;
+      let z = radius * sin(angle) * SPACING_FACTOR;
+      let y = random(-30, 30) * SPACING_FACTOR;
+      let size = CUBE_SIZE + random(-3, 3);
+  
+      const newCube = {
+        x, y, z,
+        size,
+        rotX: random(TWO_PI),
+        rotY: random(TWO_PI),
+        rotZ: random(TWO_PI),
+        isRed: false
+      };
+  
+      let overlaps = cubes.some(c => cubesOverlap(c, newCube));
+      if (!overlaps) {
+        cubes.push(newCube);
+      }
+    }
   }
-}
 
 function draw() {
   background(0);
