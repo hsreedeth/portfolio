@@ -58,6 +58,10 @@ body {
     width: 100%;
   }
 
+  .topics-grid > .topic:hover {
+    color: #ffffff;
+  }
+
   .topic-card {
     position: relative;
     display: flex;
