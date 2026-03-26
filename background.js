@@ -3,6 +3,10 @@ const NUM_CUBES = 200;
 const CUBE_SIZE = 12;
 const SPACING_FACTOR = 2.5;
 const RED_CUBE_SIZE_MULTIPLIER = 1.5;
+const DEFAULT_ROTATION_SPEED_Y = 0.001;
+const DEFAULT_ROTATION_SPEED_X = 0.0005;
+const RED_ROTATION_SPEED_Y = 0.01;
+const RED_ROTATION_SPEED_X = 0.005;
 
 function setup() {
   const canvas = createCanvas(windowWidth, windowHeight, WEBGL);
@@ -90,8 +94,8 @@ function draw() {
     box(cube.size);
     pop();
 
-    cube.rotY += 0.001;
-    cube.rotX += 0.0005;
+    cube.rotY += cube.isRed ? RED_ROTATION_SPEED_Y : DEFAULT_ROTATION_SPEED_Y;
+    cube.rotX += cube.isRed ? RED_ROTATION_SPEED_X : DEFAULT_ROTATION_SPEED_X;
   }
 }
 
