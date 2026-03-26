@@ -7,6 +7,10 @@ const DEFAULT_ROTATION_SPEED_Y = 0.001;
 const DEFAULT_ROTATION_SPEED_X = 0.0005;
 const RED_ROTATION_SPEED_Y = 0.01;
 const RED_ROTATION_SPEED_X = 0.005;
+const ROTATION_BOOST_MULTIPLIER = 16;
+const ROTATION_BOOST_DURATION_MS = 1500;
+
+let rotationBoostStartedAt = null;
 
 function setup() {
   const canvas = createCanvas(windowWidth, windowHeight, WEBGL);
@@ -18,9 +22,31 @@ function setup() {
 
   document.getElementById('refresh-icon').addEventListener('click', () => {
     regenerateCubes();
+    triggerRotationBoost();
   });
 
+  window.addEventListener('scroll', triggerRotationBoost, { passive: true });
+
   regenerateCubes(); // Show cubes on initial load
+  triggerRotationBoost();
+}
+
+function triggerRotationBoost() {
+  rotationBoostStartedAt = millis();
+}
+
+function getRotationBoostMultiplier() {
+  if (rotationBoostStartedAt === null) {
+    return 1;
+  }
+
+  const elapsed = millis() - rotationBoostStartedAt;
+
+  if (elapsed >= ROTATION_BOOST_DURATION_MS) {
+    return 1;
+  }
+
+  return lerp(ROTATION_BOOST_MULTIPLIER, 1, elapsed / ROTATION_BOOST_DURATION_MS);
 }
 
 function regenerateCubes() {
@@ -82,6 +108,7 @@ function draw() {
   ambientLight(40);
   directionalLight(255, 100, 100, 0.5, -1, -0.5);
   pointLight(255, 0, 0, 0, 0, 0);   
+  const rotationBoost = getRotationBoostMultiplier();
 
   for (let cube of cubes) {
     push();
@@ -94,8 +121,11 @@ function draw() {
     box(cube.size);
     pop();
 
-    cube.rotY += cube.isRed ? RED_ROTATION_SPEED_Y : DEFAULT_ROTATION_SPEED_Y;
-    cube.rotX += cube.isRed ? RED_ROTATION_SPEED_X : DEFAULT_ROTATION_SPEED_X;
+    const baseRotationSpeedY = cube.isRed ? RED_ROTATION_SPEED_Y : DEFAULT_ROTATION_SPEED_Y;
+    const baseRotationSpeedX = cube.isRed ? RED_ROTATION_SPEED_X : DEFAULT_ROTATION_SPEED_X;
+
+    cube.rotY += baseRotationSpeedY * rotationBoost;
+    cube.rotX += baseRotationSpeedX * rotationBoost;
   }
 }
 
