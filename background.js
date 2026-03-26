@@ -107,7 +107,7 @@ function draw() {
 
   ambientLight(40);
   directionalLight(255, 100, 100, 0.5, -1, -0.5);
-  pointLight(255, 0, 0, 0, 0, 0);   
+  pointLight(255, 0, 0, 0, 0, 0);
   const rotationBoost = getRotationBoostMultiplier();
 
   for (let cube of cubes) {
@@ -117,7 +117,7 @@ function draw() {
     rotateY(cube.rotY);
     rotateZ(cube.rotZ);
     noStroke();
-    fill(cube.isRed ? color(255, 0, 0) : 255);
+    fill(255);
     box(cube.size);
     pop();
 

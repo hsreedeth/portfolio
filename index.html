@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Hari Sreedeth | Portfolio</title>
   <link rel="stylesheet" href="style.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <link rel="icon" href="assets/favicon.ico" type="image/x-icon">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.6.0/p5.min.js"></script>
@@ -25,35 +25,48 @@
   </header>
 
   <main>
-    <div class="tagline">
-      <p>Health Data Science, Statistical Learning <br>and Experiments in Computational<br> Drug Design & Discovery</p>
-      <div class="tagline-underline"></div>
-    </div>     
-    
+    <section class="overview-card" aria-label="Overview">
+      <div class="overview-card__inner">
+        <div class="overview-card__row overview-card__row--compact">
+          <p>Hello! I am Hari.</p>
+        </div>
+        <div class="overview-card__row overview-card__row--compact">
+          <p>I am a Health Data Scientist &amp;<br>a Clinician</p>
+        </div>
+        <div class="overview-card__row overview-card__row--body">
+          <p>I build reproducible research, data science and ML pipelines across clinical and biomedical data, with a focus on end-to-end workflows, AI engineering, and clear reporting.</p>
+        </div>
+        <div class="overview-card__row overview-card__row--split">
+          <div class="overview-card__cell overview-card__cell--label">
+            <p>I specialize in:</p>
+          </div>
+          <div class="overview-card__cell overview-card__cell--value">
+            <p id="specialization-flash" class="specialization-flash" aria-live="polite">Clinical data science</p>
+          </div>
+        </div>
+      </div>
+    </section>
+    <a class="view-projects-button" href="#projects">
+      <span class="view-projects-button__label">View Projects</span>
+      <span class="view-projects-button__arrow" aria-hidden="true">
+        <span class="view-projects-button__chevron view-projects-button__chevron--left"></span>
+        <span class="view-projects-button__chevron view-projects-button__chevron--right"></span>
+      </span>
+    </a>
   </main>
-<div class="topics-grid">
-  <div class="topic-card">
-    <a href="https://hsreedeth.github.io/maip_page/#/" class="topic topic-main" target="_blank" rel="noopener noreferrer">Multimorbidity Anchored<br> ICU-Phenotypes</a>
-    <div class="topic-links">
-      <a href="https://hsreedeth.github.io/MAIP/" class="topic-link" target="_blank" rel="noopener noreferrer">Read Manuscript</a>
-      <a href="https://hsreedeth.github.io/maip_page/#/" class="topic-link" target="_blank" rel="noopener noreferrer">Short-form Post with Demo App</a>
-      <a href="https://github.com/hsreedeth/MAIP" class="topic-link" target="_blank" rel="noopener noreferrer">Code Repository</a>
+<section class="projects-section" id="projects">
+  <a href="https://hsreedeth.github.io/maip_page/#/" class="project-feature" target="_blank" rel="noopener noreferrer" aria-label="Open Multimorbidity anchored ICU-phenotypes">
+    <div class="project-feature__content">
+      <p class="project-feature__eyebrow">Project</p>
+      <h2 class="project-feature__title">Multimorbidity anchored ICU-phenotypes</h2>
     </div>
-  </div>
-  
-  <a href="https://github.com/hsreedeth/hERGBench" class="topic" target="_blank" rel="noopener noreferrer">
-    hERG (Human ether-a-go-go related gene):<br> Benchmarking<br> & production-grade predictive pipelining
+    <span class="project-feature__action" aria-hidden="true">
+      <span class="project-feature__triangle"></span>
+    </span>
   </a>
-  
-  <a href="https://github.com/hsreedeth/TypesetLLM" class="topic" target="_blank" rel="noopener noreferrer">
-    TypesetLLM
-  </a>
-
-  <a href="https://hsreedeth.github.io/interactiveoccreport/" class="topic" target="_blank" rel="noopener noreferrer">
-    Information Visualization: Analyzing Occupation<br>Shortage in Australia
-  </a>
-</div>
+</section>
   <script src="background.js"></script>
+  <script src="intro.js"></script>
 <hr style="width: 60px; border: none; border-top: 15px dotted #ff4d4d; margin: 80px auto 20px;">
 <p style="text-align:center; font-family: 'Inter', sans-serif; font-weight: 200; font-size: 8px; color: #888; margin-top: 20px;">
   Hari Sreedeth   ·   2025
