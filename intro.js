@@ -72,8 +72,10 @@ document.addEventListener('DOMContentLoaded', () => {
     return section.getBoundingClientRect().top + window.scrollY;
   }
 
-  function isNearProjects() {
-    return window.scrollY >= sectionTop(projectsSection) - 80;
+  function isAtProjectsState() {
+    const projectsStart = sectionTop(projectsSection);
+    const snapOffset = window.innerHeight * 0.28;
+    return window.scrollY >= projectsStart - snapOffset;
   }
 
   function updateProjectsButtonState() {
@@ -81,7 +83,7 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
 
-    const atProjects = isNearProjects();
+    const atProjects = isAtProjectsState();
     viewProjectsButton.classList.toggle('is-up', atProjects);
     viewProjectsButtonLabel.textContent = atProjects ? 'Go to Top' : 'View Projects';
     viewProjectsButton.setAttribute('aria-label', atProjects ? 'Go to top' : 'View projects');
@@ -102,12 +104,12 @@ document.addEventListener('DOMContentLoaded', () => {
       return true;
     }
 
-    if (direction > 0 && !isNearProjects()) {
+    if (direction > 0 && !isAtProjectsState()) {
       snapTo(projectsSection);
       return true;
     }
 
-    if (direction < 0 && isNearProjects()) {
+    if (direction < 0 && isAtProjectsState()) {
       snapTo(introSection);
       return true;
     }
@@ -159,7 +161,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (viewProjectsButton) {
     viewProjectsButton.addEventListener('click', event => {
       event.preventDefault();
-      snapTo(isNearProjects() ? introSection : projectsSection);
+      snapTo(isAtProjectsState() ? introSection : projectsSection);
     });
   }
 
