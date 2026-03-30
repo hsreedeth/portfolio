@@ -79,7 +79,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     viewProjectsButton.classList.toggle('is-up', isProjectsActive);
-    viewProjectsButtonLabel.textContent = isProjectsActive ? 'Go to Top' : 'View Projects';
+    viewProjectsButtonLabel.textContent = isProjectsActive ? 'GO TO TOP' : 'VIEW PROJECTS';
     viewProjectsButton.setAttribute('aria-label', isProjectsActive ? 'Go to top' : 'View projects');
   }
 
