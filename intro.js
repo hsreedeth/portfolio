@@ -35,28 +35,99 @@ document.addEventListener('DOMContentLoaded', () => {
   const specializationFlash = document.getElementById('specialization-flash');
   const introSection = document.querySelector('main');
   const projectsSection = document.getElementById('projects');
+  const projectsGrid = document.querySelector('.projects-grid');
   const viewProjectsButton = document.querySelector('.view-projects-button');
   const viewProjectsButtonLabel = document.querySelector('.view-projects-button__label');
+  const contactMeButton = document.getElementById('contact-me-button');
+  const clipboardToast = document.getElementById('clipboard-toast');
+  let toastTimeoutId = null;
 
-  if (!specializationFlash) {
-    return;
+  function showClipboardToast(message) {
+    if (!clipboardToast) {
+      return;
+    }
+
+    clipboardToast.textContent = message;
+    clipboardToast.classList.add('is-visible');
+
+    if (toastTimeoutId) {
+      window.clearTimeout(toastTimeoutId);
+    }
+
+    toastTimeoutId = window.setTimeout(() => {
+      clipboardToast.classList.remove('is-visible');
+    }, 1800);
   }
 
-  let specializationIndex = 0;
-  const fadeDurationMs = 180;
-  const displayDurationMs = 1450;
+  async function copyTextToClipboard(text) {
+    if (navigator.clipboard && window.isSecureContext) {
+      try {
+        await navigator.clipboard.writeText(text);
+        return true;
+      } catch (error) {
+        // Fall back to a hidden textarea when the Clipboard API is unavailable.
+      }
+    }
 
-  function showNextSpecialization() {
-    specializationFlash.classList.add('is-fading');
+    const fallbackInput = document.createElement('textarea');
+    fallbackInput.value = text;
+    fallbackInput.setAttribute('readonly', '');
+    fallbackInput.style.position = 'fixed';
+    fallbackInput.style.opacity = '0';
+    fallbackInput.style.pointerEvents = 'none';
+    document.body.appendChild(fallbackInput);
+    fallbackInput.focus();
+    fallbackInput.select();
 
-    window.setTimeout(() => {
-      specializationIndex = (specializationIndex + 1) % specializations.length;
-      specializationFlash.textContent = specializations[specializationIndex];
-      specializationFlash.classList.remove('is-fading');
-    }, fadeDurationMs);
+    let didCopy = false;
+
+    try {
+      didCopy = document.execCommand('copy');
+    } finally {
+      document.body.removeChild(fallbackInput);
+    }
+
+    return didCopy;
   }
 
-  window.setInterval(showNextSpecialization, displayDurationMs);
+  if (contactMeButton) {
+    const contactEmail = contactMeButton.dataset.email?.trim() || '';
+
+    contactMeButton.addEventListener('click', async () => {
+      if (!contactEmail) {
+        return;
+      }
+
+      contactMeButton.textContent = contactEmail;
+      contactMeButton.classList.add('is-revealed');
+      contactMeButton.setAttribute('aria-label', `Email address: ${contactEmail}`);
+
+      try {
+        const didCopy = await copyTextToClipboard(contactEmail);
+        showClipboardToast(didCopy ? 'Email has been copied.' : 'Unable to copy email automatically.');
+      } catch (error) {
+        showClipboardToast('Unable to copy email automatically.');
+      }
+    });
+  }
+
+  if (specializationFlash) {
+    let specializationIndex = 0;
+    const fadeDurationMs = 180;
+    const displayDurationMs = 1450;
+
+    function showNextSpecialization() {
+      specializationFlash.classList.add('is-fading');
+
+      window.setTimeout(() => {
+        specializationIndex = (specializationIndex + 1) % specializations.length;
+        specializationFlash.textContent = specializations[specializationIndex];
+        specializationFlash.classList.remove('is-fading');
+      }, fadeDurationMs);
+    }
+
+    window.setInterval(showNextSpecialization, displayDurationMs);
+  }
 
   if (!introSection || !projectsSection) {
     return;
@@ -81,6 +152,28 @@ document.addEventListener('DOMContentLoaded', () => {
     viewProjectsButton.classList.toggle('is-up', isProjectsActive);
     viewProjectsButtonLabel.textContent = isProjectsActive ? 'GO TO TOP' : 'VIEW PROJECTS';
     viewProjectsButton.setAttribute('aria-label', isProjectsActive ? 'Go to top' : 'View projects');
+    updateProjectsButtonPosition();
+  }
+
+  function updateProjectsButtonPosition() {
+    if (!viewProjectsButton) {
+      return;
+    }
+
+    if (!isProjectsActive || !projectsGrid) {
+      viewProjectsButton.style.top = '';
+      viewProjectsButton.style.bottom = '';
+      return;
+    }
+
+    const gridRect = projectsGrid.getBoundingClientRect();
+    const buttonHeight = viewProjectsButton.offsetHeight;
+    const gapAbovePanels = 18;
+    const minTop = 84;
+    const desiredTop = Math.max(minTop, gridRect.top - buttonHeight - gapAbovePanels);
+
+    viewProjectsButton.style.top = `${desiredTop}px`;
+    viewProjectsButton.style.bottom = 'auto';
   }
 
   function snapTo(section) {
@@ -180,5 +273,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }, { passive: true });
   }
 
+  window.addEventListener('scroll', updateProjectsButtonPosition, { passive: true });
+  window.addEventListener('resize', updateProjectsButtonPosition);
   updateProjectsButtonState();
 });

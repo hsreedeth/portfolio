@@ -2,6 +2,10 @@ html {
     scroll-behavior: smooth;
   }
 
+:root {
+    --projects-peek: clamp(2.35rem, 7vh, 2.9rem);
+  }
+
 /* Import font */
 body {
     margin: 0;
@@ -31,16 +35,131 @@ body {
 
   .projects-section {
     display: block;
-    margin-top: 1.9rem;
+    margin-top: calc(-1 * var(--projects-peek));
     margin-left: 1.55rem;  
     margin-right: 1.55rem;
     scroll-margin-top: 3rem;
+    position: relative;
+    z-index: 1;
   }
 
   .projects-grid {
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 2.6rem;
+  }
+
+  .career-section {
+    display: flex;
+    justify-content: flex-start;
+    margin: 1.5rem 1.55rem 0;
+    position: relative;
+    z-index: 1;
+  }
+
+  .career-panel {
+    --career-panel-inset: 1.15rem;
+    width: min(40rem, calc(100vw - 3.1rem));
+    border: 1px solid rgba(255, 255, 255, 0.78);
+    border-radius: 1rem;
+    overflow: hidden;
+    background: rgba(0, 0, 0, 0.22);
+  }
+
+  .career-panel__headline {
+    padding: var(--career-panel-inset);
+    color: rgba(255, 255, 255, 0.96);
+    font-size: 0.9rem;
+    line-height: 1.12;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+  }
+
+  .career-panel__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.48fr) minmax(12rem, 1fr);
+    grid-template-rows: minmax(3.8rem, auto) minmax(3.6rem, auto);
+    border-top: 1px solid rgba(255, 255, 255, 0.78);
+  }
+
+  .career-panel__summary,
+  .career-panel__action {
+    padding: var(--career-panel-inset);
+    color: rgba(255, 255, 255, 0.94);
+    font-size: 0.92rem;
+    line-height: 1.23;
+    font-weight: 400;
+    letter-spacing: -0.015em;
+    box-sizing: border-box;
+  }
+
+  .career-panel__summary {
+    grid-row: 1 / span 2;
+    border-right: 1px solid rgba(255, 255, 255, 0.78);
+  }
+
+  .career-panel__action {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.12em;
+    transition: background-color 0.2s ease, color 0.2s ease;
+  }
+
+  .career-panel__action:hover,
+  .career-panel__action:focus-visible {
+    background-color: rgba(255, 255, 255, 0.05);
+    color: #ffffff;
+  }
+
+  .career-panel__action + .career-panel__action,
+  .career-panel__action--button {
+    border-top: 1px solid rgba(255, 255, 255, 0.78);
+  }
+
+  .career-panel__action--button {
+    width: 100%;
+    border-left: 0;
+    border-right: 0;
+    border-bottom: 0;
+    background: transparent;
+    text-align: left;
+    font-family: inherit;
+    cursor: pointer;
+  }
+
+  .career-panel__action--button.is-revealed {
+    font-size: 0.78rem;
+    line-height: 1.24;
+    letter-spacing: -0.02em;
+    word-break: break-word;
+  }
+
+  .clipboard-toast {
+    position: fixed;
+    right: 1.55rem;
+    bottom: 1.55rem;
+    max-width: min(18rem, calc(100vw - 2rem));
+    padding: 0.72rem 0.95rem;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: 0.9rem;
+    background: rgba(20, 20, 20, 0.94);
+    color: rgba(255, 255, 255, 0.94);
+    font-size: 0.82rem;
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(0.45rem);
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    z-index: 14;
+  }
+
+  .clipboard-toast.is-visible {
+    opacity: 1;
+    transform: translateY(0);
   }
 
   .project-card {
@@ -53,6 +172,12 @@ body {
     border-radius: 1.8rem;
     background: linear-gradient(180deg, rgba(44, 44, 44, 0.82) 0%, rgba(32, 32, 32, 0.78) 100%);
     box-sizing: border-box;
+    transition: transform 0.22s ease, box-shadow 0.22s ease;
+  }
+
+  .project-card:hover {
+    transform: scale(1.035);
+    box-shadow: 0 18px 34px rgba(0, 0, 0, 0.22);
   }
 
   .project-card__body {
@@ -199,7 +324,7 @@ body {
     display: flex;
     position: relative;
     align-items: flex-start;
-    min-height: 34rem;
+    min-height: calc(100svh - 3.5rem);
     padding: 7rem 0 0 1.4rem;
   }
 
@@ -325,9 +450,9 @@ body {
   }
 
   .view-projects-button {
-    position: absolute;
+    position: fixed;
     left: 50%;
-    bottom: 1.4rem;
+    bottom: clamp(6.5rem, 18vh, 9.25rem);
     display: inline-flex;
     flex-direction: column;
     align-items: center;
@@ -338,14 +463,14 @@ body {
     color: rgba(255, 255, 255, 0.92);
     text-decoration: none;
     transform: translateX(-50%);
-    z-index: 2;
+    z-index: 8;
     white-space: nowrap;
   }
 
   .view-projects-button__label {
-    font-size: 0.64rem;
+    font-size: 0.54rem;
     font-weight: 500;
-    letter-spacing: 0.14em;
+    letter-spacing: 0.22em;
     text-transform: uppercase;
   }
 
@@ -419,7 +544,7 @@ body {
   /* Responsive */
   @media (max-width: 900px) {
     main {
-      min-height: auto;
+      min-height: calc(100svh - 3rem);
       padding-top: 4.5rem;
     }
 
@@ -434,12 +559,12 @@ body {
     }
 
     .view-projects-button {
-      left: auto;
-      right: 1.4rem;
-      bottom: 1rem;
-      transform: none;
-      align-items: flex-end;
-      max-width: 10rem;
+      bottom: clamp(5.25rem, 15vh, 7rem);
+      max-width: min(11rem, 45vw);
+    }
+
+    .career-panel {
+      width: min(38rem, calc(100vw - 3.1rem));
     }
   }
 
@@ -453,12 +578,42 @@ body {
   @media (max-width: 600px) {
     main {
       padding: 2.2rem 0 0 1rem;
-      min-height: auto;
+      min-height: calc(100svh - 2.4rem);
     }
 
     .projects-section {
       margin-left: 1rem;
       margin-right: 1rem;
+    }
+
+    .career-section {
+      margin-left: 1rem;
+      margin-right: 1rem;
+    }
+
+    .career-panel {
+      --career-panel-inset: 1rem;
+      width: calc(100vw - 2rem);
+    }
+
+    .career-panel__headline {
+      font-size: 0.94rem;
+    }
+
+    .career-panel__grid {
+      grid-template-columns: 1fr;
+      grid-template-rows: auto;
+    }
+
+    .career-panel__summary {
+      grid-row: auto;
+      border-right: 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.78);
+    }
+
+    .career-panel__summary,
+    .career-panel__action {
+      font-size: 0.88rem;
     }
 
     .projects-grid {
@@ -508,17 +663,15 @@ body {
       border-top: 1px solid rgba(255, 255, 255, 0.78);
     }
 
-    .view-projects-button {
-      position: static;
-      margin: 1.25rem auto 0;
-      transform: none;
-      align-items: center;
-      max-width: none;
+    .view-projects-button__label {
+      font-size: 0.52rem;
+      letter-spacing: 0.18em;
     }
 
-    .view-projects-button__label {
-      font-size: 0.62rem;
-      letter-spacing: 0.12em;
+    .clipboard-toast {
+      right: 1rem;
+      bottom: 1rem;
+      font-size: 0.78rem;
     }
 
     #refresh-icon {
