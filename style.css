@@ -247,6 +247,20 @@ body {
     transition: transform 0.82s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.28s ease;
   }
 
+  .project-card__status--detail {
+    align-items: flex-start;
+    gap: 0.4rem;
+    max-width: calc(100% - 2.44rem);
+    font-size: 0.5rem;
+    line-height: 1.22;
+    letter-spacing: 0.08em;
+    white-space: normal;
+  }
+
+  .project-card__status--detail::before {
+    display: none;
+  }
+
   .project-card:hover .project-card__status,
   .project-card:focus-within .project-card__status {
     opacity: 1;
