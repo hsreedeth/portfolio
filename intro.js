@@ -63,6 +63,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   let isSnapScrolling = false;
+  let isProjectsActive = false;
   let touchStartY = null;
   const wheelThreshold = 8;
   const touchThreshold = 24;
@@ -72,21 +73,14 @@ document.addEventListener('DOMContentLoaded', () => {
     return section.getBoundingClientRect().top + window.scrollY;
   }
 
-  function isAtProjectsState() {
-    const projectsStart = sectionTop(projectsSection);
-    const snapOffset = window.innerHeight * 0.28;
-    return window.scrollY >= projectsStart - snapOffset;
-  }
-
   function updateProjectsButtonState() {
     if (!viewProjectsButton || !viewProjectsButtonLabel) {
       return;
     }
 
-    const atProjects = isAtProjectsState();
-    viewProjectsButton.classList.toggle('is-up', atProjects);
-    viewProjectsButtonLabel.textContent = atProjects ? 'Go to Top' : 'View Projects';
-    viewProjectsButton.setAttribute('aria-label', atProjects ? 'Go to top' : 'View projects');
+    viewProjectsButton.classList.toggle('is-up', isProjectsActive);
+    viewProjectsButtonLabel.textContent = isProjectsActive ? 'Go to Top' : 'View Projects';
+    viewProjectsButton.setAttribute('aria-label', isProjectsActive ? 'Go to top' : 'View projects');
   }
 
   function snapTo(section) {
@@ -95,6 +89,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     window.setTimeout(() => {
       isSnapScrolling = false;
+      isProjectsActive = section === projectsSection;
       updateProjectsButtonState();
     }, snapCooldownMs);
   }
@@ -104,12 +99,12 @@ document.addEventListener('DOMContentLoaded', () => {
       return true;
     }
 
-    if (direction > 0 && !isAtProjectsState()) {
+    if (direction > 0 && !isProjectsActive) {
       snapTo(projectsSection);
       return true;
     }
 
-    if (direction < 0 && isAtProjectsState()) {
+    if (direction < 0 && isProjectsActive) {
       snapTo(introSection);
       return true;
     }
@@ -161,10 +156,29 @@ document.addEventListener('DOMContentLoaded', () => {
   if (viewProjectsButton) {
     viewProjectsButton.addEventListener('click', event => {
       event.preventDefault();
-      snapTo(isAtProjectsState() ? introSection : projectsSection);
+      snapTo(isProjectsActive ? introSection : projectsSection);
     });
   }
 
-  window.addEventListener('scroll', updateProjectsButtonState, { passive: true });
+  if ('IntersectionObserver' in window) {
+    const projectsObserver = new IntersectionObserver(entries => {
+      const entry = entries[0];
+      isProjectsActive = entry.isIntersecting && entry.intersectionRatio >= 0.35;
+      updateProjectsButtonState();
+    }, {
+      threshold: [0.35, 0.55],
+      rootMargin: '-10% 0px -20% 0px'
+    });
+
+    projectsObserver.observe(projectsSection);
+  } else {
+    window.addEventListener('scroll', () => {
+      const projectsRect = projectsSection.getBoundingClientRect();
+      isProjectsActive = projectsRect.top <= window.innerHeight * 0.45
+        && projectsRect.bottom >= window.innerHeight * 0.35;
+      updateProjectsButtonState();
+    }, { passive: true });
+  }
+
   updateProjectsButtonState();
 });
