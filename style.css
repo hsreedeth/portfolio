@@ -180,6 +180,10 @@ body {
     transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.55s cubic-bezier(0.22, 1, 0.36, 1);
   }
 
+  [hidden] {
+    display: none !important;
+  }
+
   .project-card::before {
     content: '';
     position: absolute;
