@@ -129,6 +129,12 @@ document.addEventListener('DOMContentLoaded', () => {
     window.setInterval(showNextSpecialization, displayDurationMs);
   }
 
+  const shouldUseNativeMobileScroll = window.matchMedia('(max-width: 700px), (pointer: coarse)').matches;
+
+  if (shouldUseNativeMobileScroll) {
+    return;
+  }
+
   if (!introSection || !projectsSection) {
     return;
   }

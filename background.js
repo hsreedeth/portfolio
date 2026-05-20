@@ -1,5 +1,6 @@
 let cubes = [];
-const NUM_CUBES = 200;
+const DESKTOP_CUBE_COUNT = 200;
+const MOBILE_CUBE_COUNT = 85;
 const CUBE_SIZE = 12;
 const SPACING_FACTOR = 2.5;
 const RED_CUBE_SIZE_MULTIPLIER = 1.5;
@@ -12,11 +13,16 @@ const ROTATION_BOOST_DURATION_MS = 1500;
 
 let rotationBoostStartedAt = null;
 
+function getCubeCount() {
+  return window.matchMedia('(max-width: 700px)').matches ? MOBILE_CUBE_COUNT : DESKTOP_CUBE_COUNT;
+}
+
 function setup() {
   const canvas = createCanvas(windowWidth, windowHeight, WEBGL);
   canvas.position(0, 0);
   canvas.style('z-index', '-1');
   canvas.style('position', 'fixed');
+  pixelDensity(Math.min(window.devicePixelRatio || 1, 1.5));
 
   angleMode(RADIANS);
 
@@ -75,7 +81,9 @@ function regenerateCubes() {
     }
   
     let attempts = 0;
-    while (cubes.length < NUM_CUBES + 1 && attempts < NUM_CUBES * 20) {
+    const targetCubeCount = getCubeCount();
+
+    while (cubes.length < targetCubeCount + 1 && attempts < targetCubeCount * 20) {
       attempts++;
       let angle = random(TWO_PI);
       let radius = random(50, 150);
@@ -131,4 +139,5 @@ function draw() {
 
 function windowResized() {
   resizeCanvas(windowWidth, windowHeight);
+  regenerateCubes();
 }

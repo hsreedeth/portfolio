@@ -2,6 +2,12 @@ html {
     scroll-behavior: smooth;
   }
 
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+  }
+
 :root {
     --projects-peek: clamp(2.35rem, 7vh, 2.9rem);
   }
@@ -670,28 +676,122 @@ body {
   }
 
   @media (max-width: 600px) {
+    :root {
+      --projects-peek: 0rem;
+      --mobile-container-width: min(34rem, calc(100% - 3rem));
+    }
+
+    body {
+      overflow-x: clip;
+    }
+
+    header {
+      padding: 1rem 1rem 0;
+    }
+
+    .name {
+      font-size: 0.9rem;
+    }
+
+    .icons a {
+      margin-left: 0.72rem;
+      font-size: 0.98rem;
+    }
+
     main {
-      padding: 2.2rem 0 0 1rem;
-      min-height: calc(100svh - 2.4rem);
+      display: block;
+      width: 100%;
+      max-width: 100vw;
+      padding: 1.35rem 1rem 2.15rem;
+      min-height: auto;
+      overflow: hidden;
     }
 
     .projects-section {
-      margin-left: 1rem;
-      margin-right: 1rem;
+      margin-top: 0;
+      margin-left: auto;
+      margin-right: auto;
+      width: var(--mobile-container-width);
+      max-width: var(--mobile-container-width);
+      scroll-margin-top: 4.6rem;
+    }
+
+    .projects-grid {
+      grid-template-columns: 1fr;
+      gap: 0.85rem;
+      min-width: 0;
+    }
+
+    .project-card {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      grid-template-areas:
+        "status action"
+        "body action";
+      align-items: end;
+      gap: 0.72rem 0.85rem;
+      min-height: 8.85rem;
+      padding: 1rem;
+      border-radius: 1rem;
+      min-width: 0;
+    }
+
+    .project-card:hover {
+      transform: none;
+      box-shadow: none;
+    }
+
+    .project-card__status {
+      position: static;
+      grid-area: status;
+      max-width: 100%;
+      opacity: 1;
+      transform: none;
+      filter: none;
+      white-space: normal;
+      overflow-wrap: anywhere;
+    }
+
+    .project-card__body {
+      grid-area: body;
+      min-height: 0;
+    }
+
+    .project-card__eyebrow {
+      max-width: none;
+      font-size: 0.92rem;
+    }
+
+    .project-card__description {
+      max-width: none;
+      font-size: 0.78rem;
+      line-height: 1.28;
+      overflow-wrap: break-word;
+    }
+
+    .project-card__action {
+      grid-area: action;
+      width: 2.9rem;
+      height: 2.9rem;
+      border-radius: 0.9rem;
     }
 
     .career-section {
-      margin-left: 1rem;
-      margin-right: 1rem;
+      margin: 1rem auto 0;
+      width: var(--mobile-container-width);
+      max-width: var(--mobile-container-width);
     }
 
     .career-panel {
-      --career-panel-inset: 1rem;
-      width: calc(100vw - 2rem);
+      --career-panel-inset: 0.95rem;
+      width: 100%;
+      min-width: 0;
+      border-radius: 1rem;
     }
 
     .career-panel__headline {
       font-size: 0.94rem;
+      line-height: 1.18;
     }
 
     .career-panel__grid {
@@ -707,54 +807,86 @@ body {
 
     .career-panel__summary,
     .career-panel__action {
-      font-size: 0.88rem;
-    }
-
-    .projects-grid {
-      grid-template-columns: 1fr;
-      gap: 1rem;
-    }
-
-    .project-card {
-      min-height: 11.2rem;
-      padding: 1.1rem;
-    }
-
-    .project-card__eyebrow {
-      max-width: 12rem;
-      font-size: 0.9rem;
-    }
-
-    .project-card__description {
-      max-width: 12rem;
-      font-size: 0.78rem;
-    }
-
-    .project-card__action {
-      width: 4rem;
-      height: 4rem;
-      border-radius: 1.2rem;
+      font-size: 0.86rem;
+      line-height: 1.32;
     }
 
     .overview-card {
-      width: calc(100vw - 2rem);
-      padding: 1rem;
+      --panel-inset: 0.95rem;
+      width: var(--mobile-container-width);
+      min-height: 0;
+      margin: 0 auto;
+      padding: 0;
+      min-width: 0;
+      max-width: var(--mobile-container-width);
+    }
+
+    .overview-card__inner {
+      min-height: 0;
       border-radius: 1rem;
+      grid-template-rows: auto;
+      min-width: 0;
+      max-width: 100%;
+    }
+
+    .overview-card__row p {
+      max-width: 100%;
+      overflow-wrap: break-word;
+    }
+
+    .overview-card__row--compact {
+      min-height: 0;
+    }
+
+    .overview-card__row--body {
+      min-height: 0;
     }
 
     .overview-card__row--compact,
-    .overview-card__row--body,
-    .overview-card__cell {
-      padding: 0.95rem;
+    .overview-card__row--body {
+      padding: var(--panel-inset);
+    }
+
+    .overview-card__row--compact p,
+    .overview-card__row--body p {
+      font-size: 0.88rem;
+      line-height: 1.3;
     }
 
     .overview-card__row--split {
       grid-template-columns: 1fr;
+      height: auto;
+    }
+
+    .overview-card__cell {
+      min-height: 3.05rem;
+      padding: var(--panel-inset);
     }
 
     .overview-card__cell--value {
       border-left: 0;
       border-top: 1px solid rgba(255, 255, 255, 0.78);
+    }
+
+    .overview-card__cell--label p {
+      font-size: 0.86rem;
+    }
+
+    .overview-card__cell--value p {
+      max-width: none;
+      min-height: 0;
+      font-size: 0.82rem;
+    }
+
+    .view-projects-button {
+      position: static;
+      transform: none;
+      display: flex;
+      width: fit-content;
+      min-width: 0;
+      max-width: 100%;
+      margin: 1rem auto 0;
+      padding: 0.55rem 0.85rem 0.7rem;
     }
 
     .view-projects-button__label {
@@ -769,7 +901,7 @@ body {
     }
 
     #refresh-icon {
-      right: 1rem;
+      display: none;
     }
   }
   
