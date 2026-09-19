@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>About | Hari Sreedeth</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="icon" href="assets/favicon.ico" type="image/x-icon">
+</head>
+<body>
+  <header>
+    <a class="name" href="index.html">Hari Sreedeth</a>
+    <nav class="site-nav" aria-label="Main navigation">
+      <a href="data-visualization.html">Data Visualization</a>
+      <a href="index.html#projects">Research Engineering</a>
+      <a href="about.html" aria-current="page">About</a>
+    </nav>
+    <div class="icons">
+      <a href="https://github.com/hsreedeth" target="_blank" aria-label="GitHub">
+        <i class="fab fa-github"></i>
+      </a>
+      <a href="https://www.linkedin.com/in/hari-s-024016310" target="_blank" aria-label="LinkedIn">
+        <i class="fab fa-linkedin"></i>
+      </a>
+    </div>
+  </header>
+  <main class="about-main">
+    <section class="about-panel career-panel" aria-label="About Hari">
+
+        <div class="overview-card__row overview-card__row--compact">
+          <p>Hello! I am Hari.</p>
+        </div>
+        <div class="overview-card__row overview-card__row--compact">
+          <p>I am a Health Data Scientist &amp;<br>a Clinician</p>
+        </div>
+        <div class="overview-card__row overview-card__row--body">
+          <p>I build reproducible research, data science and ML pipelines across clinical and biomedical data, with a focus on end-to-end workflows, AI engineering and clear reporting.</p>
+        </div>
+        <div class="overview-card__row overview-card__row--split">
+          <div class="overview-card__cell overview-card__cell--label">
+            <p>I specialize in:</p>
+          </div>
+          <div class="overview-card__cell overview-card__cell--value">
+            <p id="specialization-flash" class="specialization-flash" aria-live="polite">Clinical data science</p>
+          </div>
+        </div>
+          <div class="career-panel__headline">
+      Let’s build data-driven solutions for better health.
+    </div>
+    <div class="career-panel__grid">
+      <div class="career-panel__summary">
+        I’m on the lookout for roles in health data science where I can apply my background in research and machine learning to real-world problems. If you’re working on applied ML or research that aims to improve patient outcomes, I’d love to see how I can contribute to your team.
+      </div>
+      <a
+        class="career-panel__action"
+        href="assets/Hari_Sreedeth_Resume_2026.pdf"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        Resume
+      </a>
+      <button
+        type="button"
+        class="career-panel__action career-panel__action--button"
+        id="contact-me-button"
+        data-email="hariisreedeth@gmail.com"
+      >
+        Contact Me
+      </button>
+    </div>
+
+    </section>
+    <div class="about-cube-scene" aria-hidden="true">
+      <div class="about-cube">
+        <span class="cube-front"></span><span class="cube-back"></span>
+        <span class="cube-right"></span><span class="cube-left"></span>
+        <span class="cube-top"></span><span class="cube-bottom"></span>
+      </div>
+    </div>
+  </main>
+  <script src="intro.js"></script>
+<div id="clipboard-toast" class="clipboard-toast" role="status" aria-live="polite">
+  Email has been copied.
+</div>
+</body>
+</html>
