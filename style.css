@@ -985,7 +985,7 @@ header {
   .about-cube { animation: none; transform: rotateX(30deg) rotateY(35deg) rotateZ(-15deg); }
 }
 
-/* Archive: the reference's gapless, auto-fitting 75px-minimum grid. */
+/* Archive: eleven square tiles in one six-column grid. */
 .visually-hidden {
   position: absolute;
   width: 1px;
@@ -1006,7 +1006,7 @@ header {
 }
 .visualization-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(75px, 1fr));
+  grid-template-columns: repeat(6, minmax(0, 1fr));
   gap: 0;
   width: 100%;
 }
@@ -1017,18 +1017,20 @@ header {
   min-width: 0;
   overflow: hidden;
   background: #888;
+  filter: grayscale(100%);
+  transition: filter 220ms ease;
 }
 .visualization-tile img {
   display: block;
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  filter: grayscale(1);
-  transition: filter 220ms ease;
 }
-.visualization-tile:hover img,
-.visualization-tile:focus-visible img,
-.visualization-tile:active img { filter: grayscale(0); }
+.visualization-tile:hover,
+.visualization-tile:focus-visible,
+.visualization-tile:active { filter: grayscale(0); }
 .visualization-tile:focus-visible { outline: 2px solid #fff; outline-offset: -4px; }
 .visualization-detail {
   display: block;
@@ -1058,8 +1060,12 @@ header {
 .visualization-detail figcaption { margin-top: 1.25rem; color: #aaa; font-size: 0.75rem; line-height: 1.5; }
 @media (max-width: 700px) {
   .visualization-archive { padding-top: 3rem; }
+  .visualization-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .visualization-detail { padding-top: 1.5rem; }
 }
+@media (max-width: 420px) {
+  .visualization-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
 @media (prefers-reduced-motion: reduce) {
-  .visualization-tile img { transition: none; }
+  .visualization-tile { transition: none; }
 }
