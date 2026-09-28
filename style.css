@@ -1023,10 +1023,12 @@ header {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: opacity 180ms ease;
+  filter: grayscale(1);
+  transition: filter 220ms ease;
 }
 .visualization-tile:hover img,
-.visualization-tile:focus-visible img { opacity: 0; }
+.visualization-tile:focus-visible img,
+.visualization-tile:active img { filter: grayscale(0); }
 .visualization-tile:focus-visible { outline: 2px solid #fff; outline-offset: -4px; }
 .visualization-detail {
   display: block;
